@@ -2,7 +2,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class LoginListener implements ActionListener{
@@ -27,7 +26,7 @@ public class LoginListener implements ActionListener{
 				@Override
 				public void run() {
 					// panel z edytorem html
-					JPanel plansza = new Plansza();
+					JFrame plansza = new Plansza(10, 10, 10);
 					// usuwamy panel logowania
 					frame.getContentPane().removeAll();
 					// dodajemy panel html i odœwie¿amy widok

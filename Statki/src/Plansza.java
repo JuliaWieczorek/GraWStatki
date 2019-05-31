@@ -1,67 +1,76 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
-public class Plansza extends JPanel{
-	/*
-	 * jeszcze nie ogarnia
-	 * tutaj bêdzie for wypisuj¹cy 10 x 10 
-	 * Pole pole = new Pole();
-	 */
+
+public class Plansza extends JFrame{
 	
+	JPanel panel = new JPanel();
+	JPanel buttonPanel;
+	static int rows = 10;
+	static int columns = 10;
+	static int gridSize;
+	public static JButton button[][] = new JButton[10][10];
+
 	private static final long serialVersionUID = 1L;
-	//pole do wpisywania planszy
-	private final JTextArea textArea = new JTextArea();
-	//pole z wygenerowan¹ plansza
-	private final JEditorPane editorPane = new JEditorPane();
-
-
+	private GridBagConstraints gbc;
+	
 	public Plansza() {
-		super();
-		setLayout(new BorderLayout());
-		createPanels();	}
+	super( "Statki" );
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setSize(600, 600);
+	setLocation(50,50);
+	setLayout(new GridLayout(10, 11));
+	for(int i=0; i<100; i++)
+		add(new JButton(""));
 
-	private void createPanels() {
-		//nie chcemy, aby mo¿na by³o edytowaæ wygenerowany html
-		editorPane.setEditable(false);
-		//ustawiamy nasz editorPane, aby rozpoznawa znaczniki html
-		editorPane.setContentType("text/html");
-		//przycisk generowania podgl¹du
-		JButton actionButton = new JButton("Podgl¹d");
-		actionButton.addActionListener(new ConvertListener());
-		//panel pomocniczy do rozk³adu elementów
-		JPanel helpPanel = new JPanel();
-		helpPanel.setLayout(new GridLayout(1, 2));
-		textArea.setBackground(Color.lightGray);
-		//dodajemy komponenty tekstowe do pomocniczego panelu
-		helpPanel.add(textArea);
-		helpPanel.add(editorPane);
-		//dodajemy wszystko do g³ównego panelu
-		this.add(helpPanel, BorderLayout.CENTER);
-		this.add(actionButton, BorderLayout.SOUTH);
+	setVisible(true);
 	}
+	
+	public Plansza(int gridSize, int height, int width) {
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setPreferredSize(new Dimension(600, 400));
+		setVisible(true);
+		setTitle("Statki");
+		panel = new JPanel();
+		
+		panel.setLayout(new GridBagLayout()); 
 
-	class ConvertListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			//zmiany wygl¹du wywo³ujemy w w¹tku dystrybucji zdarzeñ
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					String text = textArea.getText();
-					editorPane.setText(text);
-					editorPane.revalidate();
-				}
-			});
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(10, 10));
+		
+		for (rows = 0; rows < gridSize; rows++) {
+			for (columns = 0; columns < gridSize; columns++) {
+				button[rows][columns] = new JButton();
+				button[rows][columns].setBackground(Color.GRAY); 
+				button[rows][columns].setPreferredSize(new Dimension(100, 100));
+				
+//				button[rows][columns].addActionListener(new TilePressed(rows, columns));
+				buttonPanel.add(button[rows][columns]);
+			}
 		}
-	}
+		
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.65;
 
-}
+		panel.add(buttonPanel, gbc);
+
+		gbc.weighty = 0.05;
+		gbc.gridy = 1;
+
+		//panel.add(gbc);
+		setContentPane(panel);
+		pack();
+	}
+	}
