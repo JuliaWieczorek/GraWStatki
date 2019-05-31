@@ -1,6 +1,5 @@
 
 import java.awt.Dimension;
-import java.net.InetAddress;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,6 +9,7 @@ public class Admin extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static final String port = "1234";
 	private static Object ip = "0000";
+	public static Plansza game;
 
 		
 	public Admin() {
@@ -17,15 +17,15 @@ public class Admin extends JFrame{
 		LoginListener listener = new LoginListener(this);
 		JPanel gracz = new Gracz(listener);
 		add(gracz);
-		/*nadaæ przycisk z ActionFrame
-		 * tutaj bêdzie 10x10 pól :)
-		 Pole pole = new Pole();
-		 add(pole);
-		 */
 		setPreferredSize(new Dimension(600, 400));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
+		
+		game = new Plansza(10, 600, 600);
+		game.setSize(600, 800);
+		game.setVisible(false);
+
 	}
 	
 	/*
