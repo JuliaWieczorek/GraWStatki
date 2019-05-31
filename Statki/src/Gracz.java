@@ -15,12 +15,7 @@ public class Gracz extends JPanel{
 	private JTextField ipField;
 	private JTextField portField;
 	private JButton loginButton;
-	private Admin admin;
-	
-	public Gracz() {
-		super();
-		loginPanel(admin);
-	}
+	private LoginListener listener;
 	
 	public String getIP() {
 		return ipField.getText();
@@ -29,48 +24,34 @@ public class Gracz extends JPanel{
 	public String getPort() {
 		return portField.getText();
 	}
+	
 		
-	public Gracz(Admin admin) {
+	public Gracz(LoginListener listener) {
 		super();
 		GridBagLayout gridBag = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.CENTER;
 		gridBag.setConstraints(this, constraints);
 		setLayout(gridBag);
-		// tworzymy komponenty logowania
-		this.admin = admin;
-		this.admin.setPanel(this);		
-		createLogin();
-	}
-	
-	public void loginPanel(Admin admin) {
-		GridBagLayout gridBag = new GridBagLayout();
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.fill = GridBagConstraints.CENTER;
-		gridBag.setConstraints(this, constraints);
-		setLayout(gridBag);
-		// tworzymy komponenty logowania
-		this.admin = admin;
-		this.admin.setPanel(this);		
+		this.listener = listener;
+		this.listener.setPanel(this);		
 		createLogin();
 	}
 	
 	void createLogin() {
 		JLabel ip = new JLabel("IP: ");
 		JLabel port = new JLabel("Port: ");
-		JTextField ipField = new JTextField();
-		JTextField portField = new JTextField();
+		ipField = new JTextField();
+		portField = new JTextField();
 
-		//pomocniczy panel do wprowadzania danych
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new GridLayout(2, 2));
 		inputPanel.add(ip);
 		inputPanel.add(ipField);
 		inputPanel.add(port);
 		inputPanel.add(portField);
-		//tworzymy przycisk logowania
 		loginButton = new JButton("Zaloguj");
-		loginButton.addActionListener(admin);
+		loginButton.addActionListener(listener);
 
 		//pomocniczy panel do wyœrodkowania elementów
 		JPanel parentPanel = new JPanel();

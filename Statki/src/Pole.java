@@ -10,6 +10,11 @@ public class Pole extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton pole;
+	/*
+	 * jedden przycisk = jedno pole
+	 * tablica 10 x 10 w planszy
+	 * for!
+	 */
 	
 	public Pole() {
 		pole = new JButton();

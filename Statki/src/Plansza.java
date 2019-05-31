@@ -11,6 +11,11 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 public class Plansza extends JPanel{
+	/*
+	 * jeszcze nie ogarnia
+	 * tutaj bêdzie for wypisuj¹cy 10 x 10 
+	 * Pole pole = new Pole();
+	 */
 	
 	private static final long serialVersionUID = 1L;
 	//pole do wpisywania planszy
