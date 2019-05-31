@@ -25,12 +25,9 @@ public class LoginListener implements ActionListener{
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					// panel z edytorem html
 					JFrame plansza = new Plansza(10, 10, 10);
-					// usuwamy panel logowania
 					frame.getContentPane().removeAll();
-					// dodajemy panel html i odœwie¿amy widok
-					frame.add(plansza);
+					//frame.add(plansza);
 					frame.validate();
 				}
 			});

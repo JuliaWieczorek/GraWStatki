@@ -1,4 +1,3 @@
-
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -22,9 +21,9 @@ public class Admin extends JFrame{
 		pack();
 		setVisible(true);
 		
-		game = new Plansza(10, 600, 600);
+		/*game = new Plansza(10, 600, 600);
 		game.setSize(600, 800);
-		game.setVisible(false);
+		game.setVisible(false);*/
 
 	}
 	

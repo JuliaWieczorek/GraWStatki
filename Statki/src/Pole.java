@@ -26,6 +26,8 @@ public class Pole extends JPanel implements ActionListener {
 		if(source == pole)
 			pole.setBackground(Color.GRAY);
 			setStatus(true);
+			Statek statek = new Statek();
+			statek.setPolozenie(pole);
 	}
 
 	public boolean isStatus() {

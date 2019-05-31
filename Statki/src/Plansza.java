@@ -14,6 +14,8 @@ public class Plansza extends JFrame{
 	static int columns = 10;
 	static int gridSize;
 	public static Pole pola[][] = new Pole[10][10];
+	public static int[] boatSize = { 1, 1, 1, 1, 2, 2, 2, 3, 3, 4 };
+	private int boat;
 
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbc;
@@ -49,5 +51,12 @@ public class Plansza extends JFrame{
 
 		setContentPane(panel);
 		pack();
+		
+		// nadajemy wielkosc statku
+		for (int i = 0; i < boatSize.length; i++) {
+			boat = boatSize[i];
+			Statek statek = new Statek();
+			statek.setWielkosc(boat);
+		}
 	}
 	}
