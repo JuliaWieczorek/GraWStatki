@@ -3,6 +3,7 @@ import javax.swing.JButton;
 public class Statek {
 	
 	int wielkosc;
+	//iloœæ po³o¿eñ == wielkoœci
 	JButton polozenie;
 	
 	public Statek() {
