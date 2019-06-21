@@ -40,7 +40,10 @@ public class Pole extends JPanel implements ActionListener {
 			if (this.value != ".") {
 				pole.setBackground(Color.CYAN);
 				setStan(true);
-				Statek.czyZatopiony();
+				Statek statek = getStatek();
+				statek.czyZatopiony();
+				
+				//statek.czyZatopiony();
 				
 				//aktualizacja punktacji
 				setPunkty(Integer.parseInt(this.value));
@@ -76,4 +79,10 @@ public class Pole extends JPanel implements ActionListener {
 	public void setStan(boolean stan) {
 	}
 
+	public Statek getStatek() {
+		return getStatek();
+	}
+
+	public void setStatek(Statek statek) {
+	}
 }

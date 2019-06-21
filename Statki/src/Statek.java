@@ -4,7 +4,7 @@ import java.util.List;
 public class Statek{
 	
 	int wielkosc;
-	static List<Pole> maszty = new ArrayList<Pole>();
+	private List<Pole> maszty = new ArrayList<Pole>();
 	
 	public Statek(String size, String lista) {
 		//System.out.println(lista.charAt(2+1));
@@ -14,6 +14,7 @@ public class Statek{
 			int col = Character.getNumericValue(lista.charAt(1+ 3*i));
 			//System.out.println(row+" "+col);
 			maszty.add(Plansza.pola[row][col]);
+			Plansza.pola[row][col].setStatek(this);
 		}
 	}
 
@@ -26,9 +27,15 @@ public class Statek{
 		this.wielkosc = wielkosc;
 	}
 	
-	public static void czyZatopiony() {
-		// sumowac true w stanach masztow jesli rowne wielkosci statku to zatopiony
-		System.out.print(maszty.get(0).isStan());
+	public void czyZatopiony() {
+		
+		int ile_trafionych = 0;
+		for (int i=0; i<this.wielkosc ; i++) {
+			if(this.maszty.get(i).isStan()==true) {ile_trafionych+=1;}
+		}
+		if (ile_trafionych == this.wielkosc) {
+			System.out.println("Zatopiony: "+this.wielkosc+"-masztowiec");
+		}
 	}
 		
 }
