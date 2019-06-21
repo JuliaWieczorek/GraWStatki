@@ -14,7 +14,7 @@ public class Maszt extends Pole{
 	}
 
 	public void setStan(boolean stan) {
-		System.out.println("Trafiony");
+		//System.out.println("Trafiony");
 		this.stan = stan;
 	}
 

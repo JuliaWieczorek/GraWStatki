@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -93,10 +94,7 @@ public class Plansza extends JFrame implements ActionListener{
 								}
 							else {
 								pola[rows][columns] = new Pole(kogo, rows, columns, plansza[rows][columns]);
-								}
-								}
-						
-							}
+								}}}
 
 							//tworzenie Statkow
 							for (int i = 0; i < 10; i++) {				
@@ -108,8 +106,12 @@ public class Plansza extends JFrame implements ActionListener{
 			zatwierdzButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					losujButton.setEnabled(false);
-				}
-			});
+					Component[] com = buttonPanel.getComponents();
+					for (int a = 0; a < com.length; a++) {
+					     com[a].setEnabled(false);}
+			}});
+			
+			
 			JPanel inputPanel = new JPanel();
 			inputPanel.setLayout(new GridLayout(2, 2));
 			inputPanel.add(losujButton);
@@ -262,7 +264,6 @@ public class Plansza extends JFrame implements ActionListener{
 	}
 
 	public void setPunkty(int punkty) {
-		System.out.println("PLANSZA SET");
 		punkty = getPunkty() + Plansza.punkty;
 	}
 	
