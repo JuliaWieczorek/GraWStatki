@@ -2,14 +2,17 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-public class Plansza extends JFrame{
+public class Plansza extends JFrame implements ActionListener{
 	
 	JPanel panel = new JPanel();
 	static JPanel buttonPanel;
@@ -25,28 +28,30 @@ public class Plansza extends JFrame{
 	
 	private String[][] plansza = new String[10][10];
 	//private List<Statek> statek = new ArrayList<Statek>();
-	private String[][] listaStatkow = new String[10][5]; 
+	private String[][] listaStatkow = new String[10][5];
+	private Statek statek;
 		
-	public Plansza(int gridSize, int height, int width) {
+	public Plansza(int kogo, int gridSize) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 400));
 		setVisible(true);
-		setTitle("Statki");
+		if (kogo == 1) setTitle("MojaPlansza");
+		else setTitle("Statki");
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout()); 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(10, 10));
-		
+			
 		plansza = Generator();
 		
 		for (rows = 0; rows < gridSize; rows++) {
 			for (columns = 0; columns < gridSize; columns++) {
 				if( plansza[rows][columns]!=".") {
-					pola[rows][columns] = new Maszt(rows,columns,plansza[rows][columns]);
+					pola[rows][columns] = new Maszt(kogo, rows,columns,plansza[rows][columns]);
 					pola[rows][columns].setStatus(true);
 					}
 				else {
-					pola[rows][columns] = new Pole(rows,columns,plansza[rows][columns]);
+					pola[rows][columns] = new Pole(kogo, rows,columns,plansza[rows][columns]);
 					
 				}
 			}
@@ -54,8 +59,9 @@ public class Plansza extends JFrame{
 
 		//tworzenie Statkow
 		for (int i = 0; i < 10; i++) {				
-			Statek statek = new Statek(listaStatkow[i][0],listaStatkow[i][1]);
+			setStatek(new Statek(listaStatkow[i][0],listaStatkow[i][1]));
 		}
+		
 		
 		gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -69,11 +75,62 @@ public class Plansza extends JFrame{
 
 		gbc.weighty = 0.05;
 		gbc.gridy = 1;
+		
+		if (kogo == 1) {
+			JButton losujButton = new JButton("Losuj");
+			losujButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttonPanel.removeAll();
+					buttonPanel.repaint();
+					buttonPanel.revalidate();
+					plansza = Generator();
+					for (rows = 0; rows < gridSize; rows++) {
+						for (columns = 0; columns < gridSize; columns++) {
+							if( plansza[rows][columns]!=".") {
+								pola[rows][columns] = new Maszt(kogo, rows, columns, plansza[rows][columns]);
+								pola[rows][columns].setStatus(true);
+								}
+							else {
+								pola[rows][columns] = new Pole(kogo, rows, columns, plansza[rows][columns]);
+								}
+								}
+						
+							}
 
+							//tworzenie Statkow
+							for (int i = 0; i < 10; i++) {				
+								setStatek(new Statek(listaStatkow[i][0],listaStatkow[i][1]));
+							}		
+				}});
+			
+			JButton zatwierdzButton = new JButton("Zatwierdz ustawienie");
+			zatwierdzButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					losujButton.setEnabled(false);
+				}
+			});
+			JPanel inputPanel = new JPanel();
+			inputPanel.setLayout(new GridLayout(2, 2));
+			inputPanel.add(losujButton);
+			inputPanel.add(zatwierdzButton);
+			panel.add(inputPanel, gbc);
+		}
+		
+		else {
+			JLabel punkt = new JLabel("Punkty: ");
+			JLabel punktacja = new JLabel("1 ");
+			JPanel inputPanel = new JPanel();
+			inputPanel.setLayout(new GridLayout(2, 2));
+			inputPanel.add(punkt);
+			inputPanel.add(punktacja);
+			panel.add(inputPanel, gbc);
+		}
+		
 		setContentPane(panel);
 		pack();
 			
 	}
+	
 	public String[][] Generator() {
 	
 		
@@ -191,6 +248,18 @@ public class Plansza extends JFrame{
 		
 	}
 
-	
+	public Statek getStatek() {
+		return statek;
+	}
+
+	public void setStatek(Statek statek) {
+		this.statek = statek;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	}

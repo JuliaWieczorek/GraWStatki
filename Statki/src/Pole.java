@@ -15,7 +15,7 @@ public class Pole extends JPanel implements ActionListener {
 	int col;
 	String value;
 	
-	public Pole(int row,int col,String value) {
+	public Pole(int kogo, int row, int col,String value) {
 		pole = new JButton();
 		
 		this.value = value;
@@ -26,15 +26,17 @@ public class Pole extends JPanel implements ActionListener {
 		pole.addActionListener(this);
 		
 		//plansza widoczna od razu (jesli plansza uzytkownika)
-		pole.setText(this.value);
-		Plansza.buttonPanel.add(pole);
+		if (kogo == 1){
+			pole.setText(this.value);
+			Plansza.buttonPanel.add(pole);
+			}
+		else Plansza.buttonPanel.add(pole);
 		}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		
 		if(source == pole)
 			if (this.value != ".") {
 				pole.setBackground(Color.CYAN);
