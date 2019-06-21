@@ -15,16 +15,18 @@ public class Pole extends JPanel implements ActionListener {
 	int col;
 	String value;
 	
-		
-	public Pole(int row,int col,String plansza) {
+	public Pole(int row,int col,String value) {
 		pole = new JButton();
 		
-		this.value = plansza;
+		this.value = value;
 		this.row = row;
 		this.col = col;
 		
 		pole.setPreferredSize(new Dimension(100, 100));
 		pole.addActionListener(this);
+		
+		//plansza widoczna od razu (jesli plansza uzytkownika)
+		pole.setText(this.value);
 		Plansza.buttonPanel.add(pole);
 		}
 	
@@ -34,13 +36,16 @@ public class Pole extends JPanel implements ActionListener {
 
 		
 		if(source == pole)
+			if (this.value != ".") {
+				pole.setBackground(Color.CYAN);
+				setStan(true);
+				Statek.czyZatopiony();
+			}
+			else {
 			pole.setBackground(Color.GRAY);
-			pole.setText(this.value);
-			//System.out.println(this.row);  
-			//System.out.println(this.col);
+			pole.setText("P");
 			setStatus(true);
-			Statek statek = new Statek();
-			statek.setPolozenie(pole);
+			}
 	}
 
 	public boolean isStatus() {
@@ -49,6 +54,13 @@ public class Pole extends JPanel implements ActionListener {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	
+	public boolean isStan() {
+		return isStan();
+	}
+
+	public void setStan(boolean stan) {
 	}
 	
 }

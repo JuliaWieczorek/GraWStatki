@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -15,13 +17,15 @@ public class Plansza extends JFrame{
 	static int columns = 10;
 	static int gridSize;
 	public static Pole pola[][] = new Pole[10][10];
-	public static int[] boatSize = {4,3,3,2,2,2,1,1,1,};
-	private int boat;
+	public static int[] boatSize = {4,3,3,2,2,2,1,1,1,1};
+	//private int boat;
 
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbc;
 	
 	private String[][] plansza = new String[10][10];
+	//private List<Statek> statek = new ArrayList<Statek>();
+	private String[][] listaStatkow = new String[10][5]; 
 		
 	public Plansza(int gridSize, int height, int width) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,10 +41,21 @@ public class Plansza extends JFrame{
 		
 		for (rows = 0; rows < gridSize; rows++) {
 			for (columns = 0; columns < gridSize; columns++) {
-				pola[rows][columns] = new Pole(rows,columns,plansza[rows][columns]);
+				if( plansza[rows][columns]!=".") {
+					pola[rows][columns] = new Maszt(rows,columns,plansza[rows][columns]);
+					pola[rows][columns].setStatus(true);
+					}
+				else {
+					pola[rows][columns] = new Pole(rows,columns,plansza[rows][columns]);
+					
+				}
 			}
 		}
-		
+
+		//tworzenie Statkow
+		for (int i = 0; i < 10; i++) {				
+			Statek statek = new Statek(listaStatkow[i][0],listaStatkow[i][1]);
+		}
 		
 		gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -57,13 +72,7 @@ public class Plansza extends JFrame{
 
 		setContentPane(panel);
 		pack();
-		
-		// nadajemy wielkosc statku
-		for (int i = 0; i < boatSize.length; i++) {
-			boat = boatSize[i];
-			Statek statek = new Statek();
-			statek.setWielkosc(boat);
-		}	
+			
 	}
 	public String[][] Generator() {
 	
@@ -73,8 +82,9 @@ public class Plansza extends JFrame{
 		        plansza[i][j] = ".";
 		    }
 		}
-		
+		int nrStatku = 0;
 		for (int boat : boatSize) {
+			
 			Boolean done = true;
 			//System.out.println(boat);
 			while (done) {
@@ -108,6 +118,8 @@ public class Plansza extends JFrame{
 						}
 						
 						if (licznik==boat) {
+							listaStatkow[nrStatku][0]=Integer.toString(boat);
+							listaStatkow[nrStatku][1]="";
 							for (int i=x_min; i<x_max;i++) {
 								for (int j=y_min; j<y_max;j++) {
 									plansza[i][j]="/";
@@ -115,8 +127,10 @@ public class Plansza extends JFrame{
 							}
 							for (int i=0; i<licznik; i++) {
 								plansza[x+i][y]=Integer.toString(boat);
+								listaStatkow[nrStatku][1]+=Integer.toString(x+i)+Integer.toString(y)+",";
 								}
 							done=false;
+							nrStatku+=1;
 							}
 						else {done=true;}
 								
@@ -145,6 +159,9 @@ public class Plansza extends JFrame{
 						
 						
 						if (licznik==boat) {
+							listaStatkow[nrStatku][0]=Integer.toString(boat);
+							listaStatkow[nrStatku][1]="";
+
 							for (int i=x_min; i<x_max;i++) {
 								for (int j=y_min; j<y_max;j++) {
 									plansza[i][j]="/";
@@ -152,8 +169,10 @@ public class Plansza extends JFrame{
 							}
 							for (int i=0; i<licznik; i++) {
 								plansza[x][y+i]=Integer.toString(boat);
-								}
+								listaStatkow[nrStatku][1]+=Integer.toString(x)+Integer.toString(y+i)+",";
+								}						
 							done=false;
+							nrStatku+=1;
 							}
 						else {done=true;}
 													
@@ -166,9 +185,7 @@ public class Plansza extends JFrame{
 			for (int j=0; j<10;j++) {
 				if (plansza[i][j]=="/") {plansza[i][j]=".";}
 			}
-		}
-		
-		
+		}		
 		
 		return plansza;
 		
