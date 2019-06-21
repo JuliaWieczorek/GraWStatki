@@ -27,13 +27,11 @@ public class LoginListener implements ActionListener{
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					//JFrame plansza = new Plansza(1, 10, 10, 10);
 					setPlansza(new Plansza(2, 10));
 					getPlansza();
 					setMojaPlansza(new Plansza(1, 10));
 					getMojaPlansza();
 					frame.getContentPane().removeAll();
-					//frame.add(plansza);
 					frame.validate();
 				}
 			});

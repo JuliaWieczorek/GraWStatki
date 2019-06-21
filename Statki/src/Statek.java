@@ -5,6 +5,7 @@ public class Statek{
 	
 	int wielkosc;
 	static List<Pole> maszty = new ArrayList<Pole>();
+	//static Pole maszty[][] = new Pole[][]; to to samo?
 	
 	public Statek(String size, String lista) {
 		//System.out.println(lista.charAt(2+1));

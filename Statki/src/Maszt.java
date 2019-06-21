@@ -1,8 +1,6 @@
 
 public class Maszt extends Pole{
 	
-	//czy Maszt dziedziczy po Polu??
-	
 	private static final long serialVersionUID = 1L;
 	private boolean stan;
 

@@ -53,13 +53,11 @@ public class Gracz extends JPanel{
 		loginButton = new JButton("Zaloguj");
 		loginButton.addActionListener(listener);
 
-		//pomocniczy panel do wyśrodkowania element�w
 		JPanel parentPanel = new JPanel();
 		parentPanel.setLayout(new BorderLayout());
 		parentPanel.add(inputPanel, BorderLayout.CENTER);
 		parentPanel.add(loginButton, BorderLayout.SOUTH);
 
-		// dodajemy do głównego panelu
 		this.add(parentPanel);
 	}
 

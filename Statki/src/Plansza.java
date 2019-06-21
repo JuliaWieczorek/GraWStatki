@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class Plansza extends JFrame implements ActionListener{
 	
@@ -30,6 +29,9 @@ public class Plansza extends JFrame implements ActionListener{
 	//private List<Statek> statek = new ArrayList<Statek>();
 	private String[][] listaStatkow = new String[10][5];
 	private Statek statek;
+	
+	static int punkty;
+	public static JLabel punktacja;
 		
 	public Plansza(int kogo, int gridSize) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,7 +54,6 @@ public class Plansza extends JFrame implements ActionListener{
 					}
 				else {
 					pola[rows][columns] = new Pole(kogo, rows,columns,plansza[rows][columns]);
-					
 				}
 			}
 		}
@@ -118,12 +119,12 @@ public class Plansza extends JFrame implements ActionListener{
 		
 		else {
 			JLabel punkt = new JLabel("Punkty: ");
-			JLabel punktacja = new JLabel("1 ");
-			JPanel inputPanel = new JPanel();
-			inputPanel.setLayout(new GridLayout(2, 2));
-			inputPanel.add(punkt);
-			inputPanel.add(punktacja);
-			panel.add(inputPanel, gbc);
+			punktacja = new JLabel(String.valueOf(Plansza.getPunkty()));
+			JPanel punktPanel = new JPanel();
+			punktPanel.setLayout(new GridLayout(2, 2));
+			punktPanel.add(punkt);
+			punktPanel.add(punktacja);
+			panel.add(punktPanel, gbc);
 		}
 		
 		setContentPane(panel);
@@ -255,6 +256,16 @@ public class Plansza extends JFrame implements ActionListener{
 	public void setStatek(Statek statek) {
 		this.statek = statek;
 	}
+
+	public static int getPunkty() {
+		return punkty;
+	}
+
+	public void setPunkty(int punkty) {
+		System.out.println("PLANSZA SET");
+		punkty = getPunkty() + Plansza.punkty;
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
