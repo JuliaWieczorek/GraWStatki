@@ -35,6 +35,7 @@ public class Plansza extends JFrame implements ActionListener{
 	
 	static int punkty;
 	public static JLabel punktacja;
+	public static JLabel zatopione;
 		
 	public Plansza(int kogo, int gridSize) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -124,10 +125,12 @@ public class Plansza extends JFrame implements ActionListener{
 		else {
 			JLabel punkt = new JLabel("Punkty: ");
 			punktacja = new JLabel(String.valueOf(Plansza.getPunkty()));
+			zatopione = new JLabel(" ");
 			JPanel punktPanel = new JPanel();
 			punktPanel.setLayout(new GridLayout(2, 2));
 			punktPanel.add(punkt);
 			punktPanel.add(punktacja);
+			punktPanel.add(zatopione);
 			panel.add(punktPanel, gbc);
 		}
 		

@@ -43,8 +43,6 @@ public class Pole extends JPanel implements ActionListener {
 				Statek statek = getStatek();
 				statek.czyZatopiony();
 				
-				//statek.czyZatopiony();
-				
 				//aktualizacja punktacji
 				setPunkty(Integer.parseInt(this.value));
 				Plansza.punktacja.removeAll();

@@ -4,8 +4,8 @@ import java.util.List;
 public class Statek{
 	
 	int wielkosc;
-	private List<Pole> maszty = new ArrayList<Pole>();
-	
+	private	List<Pole> maszty = new ArrayList<Pole>();
+
 	public Statek(String size, String lista) {
 		//System.out.println(lista.charAt(2+1));
 		this.wielkosc = Integer.parseInt(size);	
@@ -34,8 +34,11 @@ public class Statek{
 			if(this.maszty.get(i).isStan()==true) {ile_trafionych+=1;}
 		}
 		if (ile_trafionych == this.wielkosc) {
-			System.out.println("Zatopiony: "+this.wielkosc+"-masztowiec");
+			Plansza.zatopione.removeAll();
+			Plansza.zatopione.revalidate();
+			Plansza.zatopione.setText("Zatopiony: "+wielkosc+"-masztowiec");
+			
+			}
 		}
 	}
-		
-}
+
