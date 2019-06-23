@@ -8,6 +8,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -128,111 +130,152 @@ public class Pole extends JPanel implements ActionListener {
 	
 	
 public void server() throws Exception {
-	 	DataInputStream in  =  null;
-	 	DataOutputStream out  =  null; 
-	 	
+
 	    ServerSocket serverSocket = new ServerSocket(gracz.portNumber);
 	    // Wait for the connection
 	    Socket fromClientSocket = serverSocket.accept();
 	    System.out.println("Connection Made!");
 	    
-	    
-	    in = new DataInputStream( 
-                new BufferedInputStream(fromClientSocket.getInputStream()));
-	    
-	    //Strzelaj - wysylanie strzalu
+	   //Strzelaj - wysylanie strzalu
         //pobierz row i col wcisnietego przycisku
     	//blokuj plansze przeciwnika
     	//wyslij row i col do przeciwnika   
+        ObjectOutputStream oos = new ObjectOutputStream(fromClientSocket.getOutputStream());
+	    
 	    String strzal = (this.row+" "+this.col);
-	    gracz.przeciwnikPlansza.blokujPlansze();
-	    out.writeUTF(strzal);
-	    
+	    //gracz.przeciwnikPlansza.blokujPlansze();
 	    System.out.println("moj strza³:"+ strzal);
-	    
-	    String odp = in.readUTF();
-	    
-	    
-	    
- 
-        System.out.println("Closing connection"); 
-
-        // close connection 
-        fromClientSocket.close(); 
-        in.close(); 
-    
-     
-
-	    
-	    
-	    
-	    
-	   /* 
-	    while (true){
-	    	
-	    
-	    	int[] strzal = new int[2];
-			strzal[0]=0;
-			strzal[1]=0;
-			
-			System.out.println(strzal[0]+" "+strzal[1]);
-			
-			gracz.przeciwnikPlansza.blokujPlansze();
-			
-			break;
-			
-			
-			
-	    }*/
-	    
-	    
+	    oos.writeObject(strzal);
+	      
 	    //Czekaj na odpowiedz
+        ObjectInputStream ois = new ObjectInputStream(fromClientSocket.getInputStream());
+        String odp = (String) ois.readObject();
+	    System.out.println("odp:"+ odp);
 	    
 	    //Zaznacz odpowiedz na planszy
-	    	//zmien kolor na Cyan-trafiony lub Grey-pud³o
-	    	
-	    
+    	//zmien kolor na Cyan-trafiony lub Grey-pud³o
+    	
+    	if (odp.equals("pud³o")) {
+    		pole.setBackground(Color.GRAY);
+    		pole.setText("P");
+    	}
+    	else{
+    		System.out.println("Jetsem tu");
+    		pole.setBackground(Color.CYAN);
+    		pole.setText("X");
+    	}
+    	
 	    //Czekaj na strza³ przecwinika
-	    	
-	    
-	    //Odpowiedz na strza³
-	    	//przekaz przeciwnikowi czy trafil czy spud³owa³
-	    
-	        
-	  
-	}	
-	
-	public void client() throws NumberFormatException, UnknownHostException, IOException {
-		DataInputStream  input   = null; 
-		DataOutputStream out     = null; 
-		
-		// Create Network Socket (Use IP + Port Number)	
-		Socket socket = new Socket(InetAddress.getByName(gracz.getIP()), Integer.parseInt(gracz.getPort()));
-		
-		in  =  new BufferedInputStream(socket.getInputStream()));
-		out    = new DataOutputStream(socket.getOutputStream()); 
+	    String strzal2 = null;
+		try {
+			strzal2 = (String) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println("Strzal przecwinika: " + strzal2);
 
-		String strzal = in.readUTF();
-	    System.out.println("Strza³ przeciwnika:"+ strzal);
+        int row = Character.getNumericValue(strzal2.charAt(0));
+        int col = Character.getNumericValue(strzal2.charAt(2));
+        
+        //Odpowiedz na strza³
+    	//przekaz przeciwnikowi czy trafil czy spud³owa³
+        String odp2 = "blad";
+        if(gracz.mojaPlansza.pola[row][col].value==".") {
+        	gracz.mojaPlansza.pola[row][col].setBackground(Color.GRAY);
+        	odp2 = "pud³o";
+        	System.out.println(odp2);
+        }
+        else {
+        	gracz.mojaPlansza.pola[row][col].setBackground(Color.RED);
+        	odp2 = "trafiony";
+        	System.out.println(odp2);
+        }
+    
+		oos.writeObject(odp2); 
 		
-		
-		//Odpowiedz na strza³
-    		//przekaz przeciwnikowi czy trafil czy spud³owa³
-		
-		//Strzelaj - wysylanie strzalu
+	   
+	    
+        //close resources
+        ois.close();
+        oos.close();
+        fromClientSocket.close();
+        //terminate the server if client sends exit request
+        //if(message.equalsIgnoreCase("exit")) 
+        
+        System.out.println("Koniec tury");
+        //close the ServerSocket object
+        serverSocket.close();
+    }
+    
+	public void client() throws NumberFormatException, UnknownHostException, IOException, ClassNotFoundException {
+       
+		 Socket socket = new Socket(InetAddress.getByName(gracz.getIP()), Integer.parseInt(gracz.getPort()));
+		 ObjectOutputStream oos = null;
+	     ObjectInputStream ois = null;  
+
+	     
+	    //Odpowiedz na strza³
+ 		//przekaz przeciwnikowi czy trafil czy spud³owa³
+		 ois = new ObjectInputStream(socket.getInputStream());
+	       String strzal = null;
+			try {
+				strzal = (String) ois.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        System.out.println("Strzal przecwinika: " + strzal);
+
+	        int row = Character.getNumericValue(strzal.charAt(0));
+	        int col = Character.getNumericValue(strzal.charAt(2));
+	        
+	        String odp = "blad";
+	        if(gracz.mojaPlansza.pola[row][col].value==".") {
+	        	odp = "pud³o";
+	        	System.out.println(odp);
+	        }
+	        else {
+	        	odp = "trafiony";
+	        	System.out.println(odp);
+	        }
+	        
+            oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeObject(odp);            
+            
+			//Strzelaj - wysylanie strzalu
 	        //pobierz row i col wcisnietego przycisku
 	    	//blokuj plansze przeciwnika
 	    	//wyslij row i col do przeciwnika
-    
-    
-		//Czekaj na odpowiedz
-    
-		//Zaznacz odpowiedz na planszy
+			String strzal2 = (this.row+" "+this.col);
+		    gracz.przeciwnikPlansza.blokujPlansze();
+		    System.out.println("moj strza³:"+ strzal2);
+		    oos.writeObject(strzal2);
+            
+			//Czekaj na odpowiedz
+		    String odp2 = (String) ois.readObject();
+		    System.out.println("odp:"+ odp2);
+			
+			//Zaznacz odpowiedz na planszy
     		//zmien kolor na Cyan-trafiony lub Grey-pud³o
-    	
+		    if (odp2.equals("pud³o")) {
+	    		pole.setBackground(Color.GRAY);
+	    		pole.setText("P");
+	    	}
+	    	else{
+	    		System.out.println("Jetsem tu");
+	    		pole.setBackground(Color.CYAN);
+	    		pole.setText("X");
+	    	}
+	    	
     
-		//Czekaj na strza³ przecwinika
-    	
-	    
+		    //Czekaj na strza³ przecwinika
+	        System.out.println("Koniec tury");
+
+           
+            //close resources
+            ois.close();
+            oos.close();
+	}    
 	  }
-}
+

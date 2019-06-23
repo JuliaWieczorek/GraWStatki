@@ -20,7 +20,7 @@ public class Plansza extends JFrame implements ActionListener{
 	static int rows = 10;
 	static int columns = 10;
 	static int gridSize;
-	public static Pole pola[][] = new Pole[10][10];
+	public static  Pole pola[][] = new Pole[10][10];
 	public static int[] boatSize = {4,3,3,2,2,2,1,1,1,1};
 	//private int boat;
 
@@ -109,7 +109,6 @@ public class Plansza extends JFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					losujButton.setEnabled(false);
 					blokujPlansze();
-					
 			}});
 			
 			
