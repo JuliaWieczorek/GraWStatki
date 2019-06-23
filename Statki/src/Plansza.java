@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -5,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -29,7 +28,6 @@ public class Plansza extends JFrame implements ActionListener{
 	private GridBagConstraints gbc;
 	
 	private String[][] plansza = new String[10][10];
-	//private List<Statek> statek = new ArrayList<Statek>();
 	private String[][] listaStatkow = new String[10][5];
 	private Statek statek;
 	
@@ -37,12 +35,12 @@ public class Plansza extends JFrame implements ActionListener{
 	public static JLabel punktacja;
 	public static JLabel zatopione;
 		
-	public Plansza(int kogo, int gridSize) {
+	public Plansza(int kogo, int gridSize, Gracz gracz) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 400));
 		setVisible(true);
 		if (kogo == 1) setTitle("MojaPlansza");
-		else setTitle("Statki");
+		else setTitle("Plansza przeciwnika");
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout()); 
 		buttonPanel = new JPanel();
@@ -55,6 +53,8 @@ public class Plansza extends JFrame implements ActionListener{
 				if( plansza[rows][columns]!=".") {
 					pola[rows][columns] = new Maszt(kogo, rows,columns,plansza[rows][columns]);
 					pola[rows][columns].setStatus(true);
+					pola[rows][columns].setBackground(Color.RED);
+					
 					}
 				else {
 					pola[rows][columns] = new Pole(kogo, rows,columns,plansza[rows][columns]);
@@ -109,9 +109,27 @@ public class Plansza extends JFrame implements ActionListener{
 			zatwierdzButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					losujButton.setEnabled(false);
-					Component[] com = buttonPanel.getComponents();
-					for (int a = 0; a < com.length; a++) {
-					     com[a].setEnabled(false);}
+					
+					blokujPlansze();
+					
+					
+					if (gracz.typ=="Administrator") {
+						System.out.println("Admin czeka");
+						try {
+							gracz.server();
+						} catch (Exception b) {
+							// TODO Auto-generated catch block
+							b.printStackTrace();
+						}
+					}
+					else
+						try {
+							System.out.println("Klient czeka");
+							gracz.client();
+						} catch (Exception b) {
+							// TODO Auto-generated catch block
+							b.printStackTrace();
+						}
 			}});
 			
 			
@@ -255,6 +273,18 @@ public class Plansza extends JFrame implements ActionListener{
 		return plansza;
 		
 	}
+	
+	public static void blokujPlansze() {
+		Component[] com = buttonPanel.getComponents();
+		for (int a = 0; a < com.length; a++) {
+			com[a].setEnabled(false);}
+	}
+	
+	public static void odblokujPlansze() {
+		Component[] com = buttonPanel.getComponents();
+		for (int a = 0; a < com.length; a++) {
+			com[a].setEnabled(true);}
+	}
 
 	public Statek getStatek() {
 		return statek;
@@ -274,7 +304,10 @@ public class Plansza extends JFrame implements ActionListener{
 	
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		System.out.println(source);
 		// TODO Auto-generated method stub
 		
 	}

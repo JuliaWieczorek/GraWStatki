@@ -32,13 +32,19 @@ public class Pole extends JPanel implements ActionListener {
 		else Plansza.buttonPanel.add(pole);
 		}
 	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+		String strzal = (this.row+" "+this.col);
+		String odpowiedz = (this.value);
 
+		
 		if(source == pole)
+			// wyslij this.row i  this.col do przeciwnika.
 			if (this.value != ".") {
-				pole.setBackground(Color.CYAN);
+				//pole.setBackground(Color.CYAN);
 				setStan(true);
 				Statek statek = getStatek();
 				statek.czyZatopiony();
@@ -51,12 +57,12 @@ public class Pole extends JPanel implements ActionListener {
 				Plansza.punktacja.setText(pkt);
 				}
 			else {
-			pole.setBackground(Color.GRAY);
+			//pole.setBackground(Color.GRAY);
 			//pole.setText(" ");
 			setStatus(true);
 			}
 	}
-	
+		
 	public void setPunkty(int punkty) {
 		Plansza.punkty = Plansza.getPunkty() + punkty;
 	}

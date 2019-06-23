@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -21,8 +22,13 @@ public class LoginListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		
 		String ip = gracz.getIP();
 		String port = gracz.getPort();
+		String typ = gracz.getTyp();
+		
+		System.out.println("Jesteœ " + typ);
+				
 		if (Admin.userValidation(ip, port)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
