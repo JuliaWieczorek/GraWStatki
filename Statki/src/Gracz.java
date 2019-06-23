@@ -31,12 +31,12 @@ public class Gracz extends JPanel{
 	private JTextField portField;
 	
 	public String typ="";
-	private int portNumber = 1777;
+	int portNumber = 1777;
 	private String ip = "";
 	
 	private JFrame frame;
-	private Plansza mojaPlansza;
-	private Plansza przeciwnikPlansza;
+	Plansza mojaPlansza;
+	Plansza przeciwnikPlansza;
 	
 	public int strzalX;
 	public int strzalY;
@@ -145,49 +145,8 @@ public class Gracz extends JPanel{
 	    } 
 		});}
 	
-	public void server() throws Exception {
-		
-	    ServerSocket serverSocket = new ServerSocket(portNumber);
-	    // Wait for the connection
-	    System.out.println("Waiting for a connection on IP: " +InetAddress.getLocalHost()+ ", port: " + portNumber);
-	    Socket fromClientSocket = serverSocket.accept();
-	    System.out.println("Connection Made!");
-	    
-	    BufferedReader keyReader = new BufferedReader(new InputStreamReader(System.in));
-	    
-	    // Once connection made create In & Out Streams
-	    PrintWriter sender = new PrintWriter(fromClientSocket.getOutputStream(), true);
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
-	    
-	    Thread senderThread = new Thread(new Sender("Server", sender, keyReader));
-	    Thread readerThread = new Thread(new Reader("Client", reader, keyReader));
-
-	    readerThread.setPriority(Thread.MAX_PRIORITY);
-	    senderThread.start();
-	    readerThread.start();
-	}	
 	
-	public void client() throws NumberFormatException, UnknownHostException, IOException {
-			
-		// Create Network Socket (Use IP + Port Number)	
-		Socket socket = new Socket(InetAddress.getByName(getIP()), Integer.parseInt(getPort()));
-			
-	    // Create Input Stream and Reader to Read from the keyboard
-	    BufferedReader keyReader = new BufferedReader(new InputStreamReader(System.in));
-		
-	    // Create Input Stream and Reader to Read from Server
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	    
-	    // Create Output Stream and Writer to Write to Server
-	    PrintWriter sender = new PrintWriter(socket.getOutputStream(), true);
-	    
-	    
-	    Thread senderThread = new Thread(new Sender("Client", sender, keyReader));
-	    Thread readerThread = new Thread(new Reader("Server", reader, keyReader));
-
-	    readerThread.setPriority(Thread.MAX_PRIORITY);
-	    senderThread.start();
-	    readerThread.start();
-	    
-	  }
+	
+	
+	
 }

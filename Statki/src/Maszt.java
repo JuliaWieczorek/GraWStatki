@@ -5,8 +5,8 @@ public class Maszt extends Pole{
 	private boolean stan;
 	private Statek statek;
 
-	public Maszt(int kogo, int row, int col, String value) {
-		super(kogo, row, col, value);
+	public Maszt(int kogo, int row, int col, String value, Gracz gracz) {
+		super(kogo, row, col, value,gracz);
 		
 	}
 

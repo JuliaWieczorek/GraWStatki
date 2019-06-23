@@ -51,13 +51,12 @@ public class Plansza extends JFrame implements ActionListener{
 		for (rows = 0; rows < gridSize; rows++) {
 			for (columns = 0; columns < gridSize; columns++) {
 				if( plansza[rows][columns]!=".") {
-					pola[rows][columns] = new Maszt(kogo, rows,columns,plansza[rows][columns]);
+					pola[rows][columns] = new Maszt(kogo, rows,columns,plansza[rows][columns],gracz);
 					pola[rows][columns].setStatus(true);
-					pola[rows][columns].setBackground(Color.RED);
 					
 					}
 				else {
-					pola[rows][columns] = new Pole(kogo, rows,columns,plansza[rows][columns]);
+					pola[rows][columns] = new Pole(kogo, rows,columns,plansza[rows][columns],gracz);
 				}
 			}
 		}
@@ -92,11 +91,11 @@ public class Plansza extends JFrame implements ActionListener{
 					for (rows = 0; rows < gridSize; rows++) {
 						for (columns = 0; columns < gridSize; columns++) {
 							if( plansza[rows][columns]!=".") {
-								pola[rows][columns] = new Maszt(kogo, rows, columns, plansza[rows][columns]);
+								pola[rows][columns] = new Maszt(kogo, rows, columns, plansza[rows][columns],gracz);
 								pola[rows][columns].setStatus(true);
 								}
 							else {
-								pola[rows][columns] = new Pole(kogo, rows, columns, plansza[rows][columns]);
+								pola[rows][columns] = new Pole(kogo, rows, columns, plansza[rows][columns],gracz);
 								}}}
 
 							//tworzenie Statkow
@@ -109,27 +108,8 @@ public class Plansza extends JFrame implements ActionListener{
 			zatwierdzButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					losujButton.setEnabled(false);
-					
 					blokujPlansze();
 					
-					
-					if (gracz.typ=="Administrator") {
-						System.out.println("Admin czeka");
-						try {
-							gracz.server();
-						} catch (Exception b) {
-							// TODO Auto-generated catch block
-							b.printStackTrace();
-						}
-					}
-					else
-						try {
-							System.out.println("Klient czeka");
-							gracz.client();
-						} catch (Exception b) {
-							// TODO Auto-generated catch block
-							b.printStackTrace();
-						}
 			}});
 			
 			
@@ -274,13 +254,13 @@ public class Plansza extends JFrame implements ActionListener{
 		
 	}
 	
-	public static void blokujPlansze() {
+	public  void blokujPlansze() {
 		Component[] com = buttonPanel.getComponents();
 		for (int a = 0; a < com.length; a++) {
 			com[a].setEnabled(false);}
 	}
 	
-	public static void odblokujPlansze() {
+	public  void odblokujPlansze() {
 		Component[] com = buttonPanel.getComponents();
 		for (int a = 0; a < com.length; a++) {
 			com[a].setEnabled(true);}
