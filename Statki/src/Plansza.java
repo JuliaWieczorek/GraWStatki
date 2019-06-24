@@ -22,7 +22,7 @@ public class Plansza extends JFrame implements ActionListener{
 	static int gridSize;
 	public static  Pole pola[][] = new Pole[10][10];
 	public static int[] boatSize = {4,3,3,2,2,2,1,1,1,1};
-	//private int boat;
+
 
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbc;
@@ -30,10 +30,11 @@ public class Plansza extends JFrame implements ActionListener{
 	private String[][] plansza = new String[10][10];
 	private String[][] listaStatkow = new String[10][5];
 	private Statek statek;
+	static int ile_zestrzelonych=0;
+
 	
 	static int punkty;
 	public static JLabel punktacja;
-	public static JLabel zatopione;
 		
 	public Plansza(int kogo, int gridSize, Gracz gracz) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -122,12 +123,10 @@ public class Plansza extends JFrame implements ActionListener{
 		else {
 			JLabel punkt = new JLabel("Punkty: ");
 			punktacja = new JLabel(String.valueOf(Plansza.getPunkty()));
-			zatopione = new JLabel(" ");
 			JPanel punktPanel = new JPanel();
 			punktPanel.setLayout(new GridLayout(2, 2));
 			punktPanel.add(punkt);
 			punktPanel.add(punktacja);
-			punktPanel.add(zatopione);
 			panel.add(punktPanel, gbc);
 		}
 		
@@ -250,6 +249,23 @@ public class Plansza extends JFrame implements ActionListener{
 		}		
 		
 		return plansza;
+		
+	}
+	
+	public static boolean koniecRozgrywki() {
+		int iloscStatkow = boatSize.length;
+		boolean koniec;
+		if(Statek.zatopiony==true) {
+			ile_zestrzelonych+=1;
+			System.out.println("ile zestrzelonych: "+ile_zestrzelonych);
+			if (ile_zestrzelonych == iloscStatkow) {
+				System.out.println("Koniec rozgrywki");
+				return koniec = true;
+				}
+			else return koniec = false;
+		}
+		else return koniec = false;
+		
 		
 	}
 	

@@ -2,15 +2,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -86,20 +80,19 @@ public class Pole extends JPanel implements ActionListener {
 				setStan(true);
 				Statek statek = getStatek();
 				statek.czyZatopiony();
-				
-				//aktualizacja punktacji
-				setPunkty(Integer.parseInt(this.value));
-				Plansza.punktacja.removeAll();
-				Plansza.punktacja.revalidate();
-				String pkt = Integer.toString(Plansza.getPunkty());
-				Plansza.punktacja.setText(pkt);
+				punktuj();
 				}
 			else {
-			//pole.setBackground(Color.GRAY);
-			//pole.setText(" ");
 			setStatus(true);
 			}
 	}
+	
+	public void punktuj() {
+		setPunkty(Integer.parseInt(this.value));
+		Plansza.punktacja.removeAll();
+		Plansza.punktacja.revalidate();
+		String pkt = Integer.toString(Plansza.getPunkty());
+		Plansza.punktacja.setText(pkt);}
 		
 	public void setPunkty(int punkty) {
 		Plansza.punkty = Plansza.getPunkty() + punkty;
@@ -266,7 +259,7 @@ public void server() throws Exception {
 	    		System.out.println("Jetsem tu");
 	    		pole.setBackground(Color.CYAN);
 	    		pole.setText("X");
-	    	}
+	  	    	}
 	    	
     
 		    //Czekaj na strza³ przecwinika

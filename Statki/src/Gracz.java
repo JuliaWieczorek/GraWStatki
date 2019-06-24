@@ -80,10 +80,7 @@ public class Gracz extends JPanel{
 		gridBag.setConstraints(this, constraints);
 		setLayout(gridBag);
 					
-		createLogin();
-		
-		
-		
+		createLogin();		
 	}
 	//Gracz - klient
 	public Gracz(String typ) {
@@ -136,17 +133,7 @@ public class Gracz extends JPanel{
 	        	setPlansza(new Plansza(2, 10, Gracz.this));
 				getPlansza();
 				setMojaPlansza(new Plansza(1, 10, Gracz.this));
-				getMojaPlansza();
-				//frame.getContentPane().removeAll();
-				//frame.validate();
-				
-
-				
+				getMojaPlansza();					
 	    } 
 		});}
-	
-	
-	
-	
-	
 }
